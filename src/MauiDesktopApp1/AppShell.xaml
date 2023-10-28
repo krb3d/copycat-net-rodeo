@@ -7,7 +7,7 @@
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="Home"
+        Title="Copycat .net Rodeo Excercise"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
