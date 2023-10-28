@@ -13,3 +13,7 @@ App2: Web App2, localy hosted, with input and output fields,
 - text is entered in App2 input it is shown in App1 output
 - Optional: multiple instances of App1 -> single instance of App2
 
+## Development environment
+
+dotnet 7
+Visual Studio + Visual Studio Code
