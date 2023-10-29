@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 using WpfDesktopApp1.Model;
@@ -18,10 +19,13 @@ namespace WpfDesktopApp1.Services
     {
         private readonly HubConnection _hub;
 
-        public HubClient()
+        public HubClient(
+            IOptions<AppSettings> options)
         {
+            var settings = options?.Value ?? throw new ArgumentNullException(nameof(options));
+
             _hub = new HubConnectionBuilder()
-                .WithUrl(@"https://localhost:7257/messages-hub")
+                .WithUrl(settings.HubUrl)
                 .WithAutomaticReconnect()
                 .Build();
 

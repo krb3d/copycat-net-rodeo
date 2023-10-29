@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.IO;
 using System.Windows;
 using WpfDesktopApp1.Services;
 using WpfDesktopApp1.ViewModel;
@@ -19,6 +21,10 @@ public partial class App : Application
         _host = Host.CreateDefaultBuilder()
                     .ConfigureServices((hostContext, services) =>
                     {
+                        services.AddOptions<AppSettings>()
+                                   .Configure<IConfiguration>((options, configuration) => configuration.Bind(options))
+                                   .ValidateDataAnnotations();
+
                         services.AddScoped<IMainWindowViewModel, MainWindowViewModel>();
                         services.AddScoped<IHubClient, HubClient>();
                         
