@@ -1,6 +1,4 @@
-# copycat-net-rodeo
-
-The Textual Exchange Extravaganza
+# Copycat .net Rodeo - The Textual Exchange Extravaganza
 
 ## Terms
 
