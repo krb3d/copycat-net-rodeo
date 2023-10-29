@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MassTransit;
+using System;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
+using System.Threading.Tasks;
 using WpfDesktopApp1.Model;
+using WpfDesktopApp1.Services;
 
 namespace WpfDesktopApp1.ViewModel;
 
@@ -13,21 +15,35 @@ public interface IMainWindowViewModel
 
     string NewMessageText { get; set; }
 
-    IRelayCommand SendCommand { get; }
+    IAsyncRelayCommand SendCommand { get; }
 }
 
 public partial class MainWindowViewModel : ObservableObject, IMainWindowViewModel
 {
+    private readonly IHubClient _hubClient;
+
+    public MainWindowViewModel(IHubClient hubClient)
+    {
+        _hubClient = hubClient ?? throw new ArgumentNullException(nameof(hubClient));
+        _hubClient.OnReceivingMessage += OnReceivingMessage;
+    }
+
+
     [ObservableProperty]
-    private string _newMessageText = string.Empty;
+    string _newMessageText = string.Empty;
 
     [ObservableProperty]
     ObservableCollection<Message> _messages = new();
 
     [RelayCommand]
-    public void Send()
+    public async Task Send()
     {
         if (string.IsNullOrEmpty(NewMessageText))
+        {
+            return;
+        }
+
+        if (!_hubClient.IsConnected)
         {
             return;
         }
@@ -38,8 +54,17 @@ public partial class MainWindowViewModel : ObservableObject, IMainWindowViewMode
             Text = NewMessageText,
         };
 
-        Messages.Add(newMessage);
+        await _hubClient.SendMessage(newMessage);
 
         NewMessageText = string.Empty;
+    }
+
+    private void OnReceivingMessage(Message receivedMessage)
+    {
+        // Can't do this directly because of UI thread resource ownership
+        // Messages.Add(receivedMessage);
+
+        App.Current.Dispatcher.Invoke(
+            () => Messages.Add(receivedMessage));
     }
 }
