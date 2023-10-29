@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Windows;
+using WpfDesktopApp1.Services;
 using WpfDesktopApp1.ViewModel;
 
 namespace WpfDesktopApp1;
@@ -19,6 +20,8 @@ public partial class App : Application
                     .ConfigureServices((hostContext, services) =>
                     {
                         services.AddScoped<IMainWindowViewModel, MainWindowViewModel>();
+                        services.AddScoped<IHubClient, HubClient>();
+                        
                         services.AddSingleton<MainWindow>();
                     })
                     .Build();

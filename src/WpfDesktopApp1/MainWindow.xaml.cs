@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using WpfDesktopApp1.Services;
 using WpfDesktopApp1.ViewModel;
 
 namespace WpfDesktopApp1
@@ -8,8 +9,7 @@ namespace WpfDesktopApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow(
-            IMainWindowViewModel context)
+        public MainWindow(IMainWindowViewModel context)
         {
             InitializeComponent();
             DataContext = context;
