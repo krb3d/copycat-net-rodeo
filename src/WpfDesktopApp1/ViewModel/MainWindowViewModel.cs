@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MassTransit;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -11,9 +12,11 @@ namespace WpfDesktopApp1.ViewModel;
 
 public interface IMainWindowViewModel
 {
-    ObservableCollection<Message> Messages { get; set; }
+    string HubUrl { get; }
 
     string NewMessageText { get; set; }
+
+    ObservableCollection<Message> Messages { get; set; }
 
     IAsyncRelayCommand SendCommand { get; }
 }
@@ -21,13 +24,19 @@ public interface IMainWindowViewModel
 public partial class MainWindowViewModel : ObservableObject, IMainWindowViewModel
 {
     private readonly IHubClient _hubClient;
+    private readonly AppSettings _settings;
 
-    public MainWindowViewModel(IHubClient hubClient)
+    public MainWindowViewModel(
+        IHubClient hubClient,
+        IOptions<AppSettings> options)
     {
         _hubClient = hubClient ?? throw new ArgumentNullException(nameof(hubClient));
         _hubClient.OnReceivingMessage += OnReceivingMessage;
+
+        _settings = options?.Value ?? throw new ArgumentNullException(nameof(options));
     }
 
+    public string HubUrl => _settings.HubUrl;
 
     [ObservableProperty]
     string _newMessageText = string.Empty;

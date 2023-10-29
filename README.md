@@ -17,3 +17,15 @@ The Textual Exchange Extravaganza
 
 dotnet 7
 Visual Studio + Visual Studio Code
+
+## How to build
+
+```cmd
+dotnet publish ./src/WpfDesktopApp1 --output ./release/Desktop --configuration Release --self-contained 
+dotnet publish ./src/BlazorWebApplication2/Server --output ./release/WebApp --configuration Release --self-contained
+```
+
+## How to run
+
+Check `appsettings.json`` in both apps for settings
+Default port 443: [https://localhost:443/](https://localhost:443/)

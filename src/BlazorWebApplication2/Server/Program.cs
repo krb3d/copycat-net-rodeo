@@ -17,8 +17,8 @@ public static class Program
         builder.Services.AddSignalR();
         builder.Services.AddResponseCompression(opts =>
         {
-            opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-               new[] { "application/octet-stream" });
+            opts.MimeTypes = ResponseCompressionDefaults.MimeTypes
+                                .Concat(new[] { "application/octet-stream" });
         });
 
         var app = builder.Build();
