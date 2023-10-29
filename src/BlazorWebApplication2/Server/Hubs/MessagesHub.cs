@@ -4,8 +4,8 @@ namespace BlazorWebAssemblySignalRApp.Server.Hubs;
 
 public class MessagesHub : Hub
 {
-    public async Task SendMessage(Guid id, string message)
+    public async Task SendMessage(Guid id, string text)
     {
-        await Clients.All.SendAsync("ReceiveMessage", id, message);
+        await Clients.All.SendAsync("ReceiveMessage", id, text);
     }
 }
