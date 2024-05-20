@@ -15,8 +15,9 @@ The Textual Exchange Extravaganza
 
 ## Development environment
 
-dotnet 7
-Visual Studio + Visual Studio Code
+dotnet 7,
+Visual Studio,
+Visual Studio Code
 
 ## How to build
 
@@ -27,5 +28,5 @@ dotnet publish ./src/BlazorWebApplication2/Server --output ./release/WebApp --co
 
 ## How to run
 
-Check `appsettings.json`` in both apps for settings
+Check `appsettings.json` in both apps for settings
 Default port 443: [https://localhost:443/](https://localhost:443/)
